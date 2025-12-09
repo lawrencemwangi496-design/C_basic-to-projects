@@ -1,3 +1,5 @@
+//MPESA SIMULATION
+
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
@@ -7,7 +9,7 @@
 //declearing function
 int read_pin(const char*filepath);
 double read_balance(const char *filepath);
-void send_money(double send,int pin,double balance,int epin,int number);
+void send_money(double send,int pin,double balance,int epin,int number,char* time_string);
 void transaction(const char *filepath,int lines);
 void depositing(double deposit, int agent,double balance,char* time_string);
 int transactional_cost(double money);
@@ -66,7 +68,7 @@ double read_balance(const char *filepath){
 
 
 //send money function
-void send_money (double send,int pin,double balance,int epin,int number){
+void send_money (double send,int pin,double balance,int epin,int number,char* time_string){
 
   if(epin==pin){
       if(balance>=send){  
@@ -76,7 +78,7 @@ void send_money (double send,int pin,double balance,int epin,int number){
      balance-=transact;
      balance-=send;
 
-        printf("You have sent ksh%.2lf to %d ,your balance is ksh%.2lf,transaction fee of ksh%.2lf",send, number,balance,transact);
+        printf("You have sent ksh%.2lf to %d ,your balance is ksh%.2lf,transaction fee of ksh%.2lf, %s",send, number,balance,transact,time_string);
 
       //SAVE BALANCE
       FILE *new_balance;
@@ -136,7 +138,7 @@ for(int i = 0; i <lines_to_print;i++){
 
 //updating the balance
 FILE *depositing;
-depositing=fopen("/home/lawrence-mwangi/Documents/mpesa/balance.txt","a");
+depositing=fopen("balance.txt","a");
 if(depositing==NULL){
     printf("failed to open file");
     return;
@@ -146,7 +148,7 @@ fclose(depositing);
 
 //saving transaction
 FILE *transaction;
-transaction =fopen("/home/lawrence-mwangi/Documents/mpesa/transaction.txt","a");
+transaction =fopen("transaction.txt","a");
 if(transaction==NULL){
     perror("failed to open");
     return;}
@@ -168,7 +170,7 @@ printf("You have withdrawn ksh%.2lf from %d, your balance is ksh%.2lf, transacti
 
 //to update the transactions
 FILE *withdrawing;
-withdrawing=fopen("/home/lawrence-mwangi/Documents/mpesa/transaction.txt","a");
+withdrawing=fopen("transaction.txt","a");
 if(withdrawing==NULL){
     perror("failed to open file");
     return;
@@ -180,7 +182,7 @@ fclose(withdrawing);
 
 //to update the balance
 FILE *fp;
-fp=fopen("/home/lawrence-mwangi/Documents/mpesa/balance.txt","a");
+fp=fopen("balance.txt","a");
 if(fp==NULL){
     perror("error in opening file");
     return;
@@ -203,7 +205,7 @@ if(money<100){
 fee=7;
 
 }
-else if(money>100 && money<1000){
+else if(money>=100 && money<=1000){
 
     fee=23;
 }
@@ -220,7 +222,7 @@ void paybill(double send,int pin ,int epin,char* time_string){
  int business,account;
  double transact,balance;
  transact = transactional_cost(send);
-balance = balance =read_balance("/home/lawrence-mwangi/Documents/mpesa/balance.txt");
+balance = balance =read_balance("balance.txt");
 
 printf("\nPaybill\n");
 printf("Enter business number: \n");
@@ -240,7 +242,7 @@ printf("you sent ksh%.2lf to account %d, you balance is ksh%.2lf,transactional c
 
 //to update the balance
 FILE *fp;
-fp=fopen("/home/lawrence-mwangi/Documents/mpesa/balance.txt","a");
+fp=fopen("balance.txt","a");
 if(fp==NULL){
     perror("error in opening file");
     return;
@@ -251,7 +253,7 @@ fclose(fp);
 
 //to update the transactions
 FILE *paybilling;
-paybilling=fopen("/home/lawrence-mwangi/Documents/mpesa/transaction.txt","a");
+paybilling=fopen("transaction.txt","a");
 if(paybilling==NULL){
     perror("failed to open file");
     return;
@@ -283,7 +285,7 @@ scanf("%lf",&send);
 printf("Enter pin: ");
 scanf("%d",&epin);
 
-double balance = read_balance("/home/lawrence-mwangi/Documents/mpesa/balance.txt");
+double balance = read_balance("balance.txt");
 balance-=send;
 if(balance>=send){
 if(pin==epin){
@@ -291,7 +293,7 @@ printf("you sent to %d, amount %.2lf, your balance is %.2lf ,%s\n",number, send,
 
 //to update the balance
 FILE *fp;
-fp=fopen("/home/lawrence-mwangi/Documents/mpesa/balance.txt","a");
+fp=fopen("balance.txt","a");
 if(fp==NULL){
     perror("error in opening file");
     return;
@@ -302,7 +304,7 @@ fclose(fp);
 
 //to update the transactions
 FILE *save;
-save=fopen("/home/lawrence-mwangi/Documents/mpesa/transaction.txt","a");
+save=fopen("transaction.txt","a");
 if(save==NULL){
     perror("failed to open file");
     return;
@@ -336,7 +338,7 @@ scanf("%lf",&send);
 printf("Enter pin: ");
 scanf("%d",&epin);
 
-double balance = read_balance("/home/lawrence-mwangi/Documents/mpesa/balance.txt");
+double balance = read_balance("balance.txt");
 balance-=send;
 if(balance>=send){
 if(pin==epin){
@@ -344,7 +346,7 @@ printf("you sent to %d, amount %.2lf, your balance is %.2lf ,%s\n",number, send,
 
 //to update the balance
 FILE *pochi_b;
-pochi_b=fopen("/home/lawrence-mwangi/Documents/mpesa/balance.txt","a");
+pochi_b=fopen("balance.txt","a");
 if(pochi_b==NULL){
     perror("error in opening file");
     return;
@@ -355,7 +357,7 @@ fclose(pochi_b);
 
 //to update the transactions
 FILE *save;
-save=fopen("/home/lawrence-mwangi/Documents/mpesa/transaction.txt","a");
+save=fopen("transaction.txt","a");
 if(save==NULL){
     perror("failed to open file");
     return;
@@ -378,7 +380,7 @@ fclose(save);
 
 //read savings file
 double read_loans(){
- FILE *fp = fopen("/home/lawrence-mwangi/Documents/mpesa/loans.txt", "r");
+ FILE *fp = fopen("loans.txt", "r");
     if (fp == NULL) {
         printf("Error opening file\n");
         return -1;
@@ -416,7 +418,7 @@ balance+=loan;
 printf("you receive a loan of ksh%.2lf,you balance is ksh%.2lf, %s",loan,balance,time_string);
 //to update the balance
 FILE *fp;
-fp=fopen("/home/lawrence-mwangi/Documents/mpesa/balance.txt","a");
+fp=fopen("balance.txt","a");
 if(fp==NULL){
     perror("error in opening file");
     return;
@@ -427,7 +429,7 @@ fclose(fp);
 
 //to update the transactions
 FILE *loans;
-loans=fopen("/home/lawrence-mwangi/Documents/mpesa/transaction.txt","a");
+loans=fopen("transaction.txt","a");
 if(loans==NULL){
     perror("failed to open file");
     return;
@@ -441,7 +443,7 @@ loan+=amount;
 
 //save the loan borrowed
 FILE *xy;
-xy=fopen("/home/lawrence-mwangi/Documents/mpesa/loans.txt","a");
+xy=fopen("loans.txt","a");
 if(loans==NULL){
     perror("failed to open file");
     return;
@@ -463,7 +465,7 @@ printf("Try a lower amount\n");
 
 //read save money
 double read_savings(){
- FILE *fp = fopen("/home/lawrence-mwangi/Documents/mpesa/savings.txt", "r");
+ FILE *fp = fopen("savings.txt", "r");
     if (fp == NULL) {
         printf("Error opening file\n");
         return -1;
@@ -503,7 +505,7 @@ printf("you saved ksh%.2lf, your new balance is ksh%.2lf , %s\n",save, balance, 
 
  //save transaction
 FILE *tran;
-tran=fopen("/home/lawrence-mwangi/Documents/mpesa/transactions.txt","a");
+tran=fopen("transactions.txt","a");
 if(tran==NULL){
     perror("failed to open file");
     return;
@@ -513,7 +515,7 @@ fclose(tran);
 
 //Update balance
 FILE *BAL;
-BAL=fopen("/home/lawrence-mwangi/Documents/mpesa/balance.txt","a");
+BAL=fopen("balance.txt","a");
 if(BAL==NULL){
     perror("failed to open file\n");
     return;
@@ -524,7 +526,7 @@ fclose(BAL);
 
 //record savings separetly
 FILE *sa;
-sa=fopen("/home/lawrence-mwangi/Documents/mpesa/savings.txt","a");
+sa=fopen("savings.txt","a");
 
 if(sa==NULL){
     perror("failed to open file\n");
@@ -560,7 +562,7 @@ if(balance>=amount){
     //update balance
     balance-=amount;
     FILE *fp;
-    fp=fopen("/home/lawrence-mwangi/Documents/mpesa/balance.txt","a");
+    fp=fopen("balance.txt","a");
 if(fp==NULL){
         perror("failed to open file");
         return;}
@@ -570,7 +572,7 @@ if(fp==NULL){
         //update loan
 new_loan=loan-amount;
 FILE *fv;
-fv=fopen("/home/lawrence-mwangi/Documents/mpesa/loans.txt","a");
+fv=fopen("loans.txt","a");
 if(fv==NULL){
     perror("failed to open file\n");
     return;
@@ -580,7 +582,7 @@ fclose(fv);
 
 //save transaction
 FILE *fc;
-fc=fopen("/home/lawrence-mwangi/Documents/mpesa/transaction.txt","a");
+fc=fopen("transaction.txt","a");
 if(fc==NULL){
     printf("failed to open file\n");
     return ;
@@ -618,7 +620,7 @@ printf("You withdrawed ksh%.2lf , you saving balance is ksh%.2lf , you knew bala
 
 //update savings
 FILE *fr;
-fr=fopen("/home/lawrence-mwangi/Documents/mpesa/savings.txt","a");
+fr=fopen("savings.txt","a");
 
 if(fr==NULL){
     printf("failed to open file");
@@ -630,7 +632,7 @@ fclose(fr);
 
 //update balance
   FILE *fp;
-    fp=fopen("/home/lawrence-mwangi/Documents/mpesa/balance.txt","a");
+    fp=fopen("balance.txt","a");
 if(fp==NULL){
         perror("failed to open file");
         return;}
@@ -639,7 +641,7 @@ if(fp==NULL){
 
 //save transaction
 FILE *fc;
-fc=fopen("/home/lawrence-mwangi/Documents/mpesa/transaction.txt","a");
+fc=fopen("transaction.txt","a");
 if(fc==NULL){
     printf("failed to open file\n");
     return ;
@@ -672,15 +674,16 @@ int main(){
 double send,balance,deposit,withdraw,transact,account;
 int choice,number,agent,a;
 int pin,epin,npin,lines;
-pin=read_pin("/home/lawrence-mwangi/Documents/mpesa/pin.txt");
-balance =read_balance("/home/lawrence-mwangi/Documents/mpesa/balance.txt");
+pin=read_pin("pin.txt");
+balance =read_balance("balance.txt");
 time_t current_time;
 current_time = time(NULL);
 char* time_string = ctime(&current_time);
 
 do{
 printf("\n=/MPESA C PROGRAM=/");
-//preset pin is 0000
+
+
 printf("\nCHOOSE THE SERVICE:\n");
 printf("1.Send money\n");
 printf("2.Withdraw cash\n");
@@ -707,13 +710,13 @@ case 1:
      scanf("%d",&epin);
 
 
-send_money(send,pin,balance,epin,number);
+send_money(send,pin,balance,epin,number,time_string);
       printf(", %s",time_string); 
 
 transact=transactional_cost(send);
      //save transaction
 FILE *transactions;
-      transactions=fopen("/home/lawrence-mwangi/Documents/mpesa/transaction.txt","a");
+      transactions=fopen("transaction.txt","a");
       if(transactions==NULL){
         perror("failed to open file");
         return 1;
@@ -790,6 +793,8 @@ case 3:
 pochi(number,send,pin,epin,time_string);
 
 break;
+if(a==1){
+
   }
 
 
@@ -797,14 +802,58 @@ break;
 
 break;
 case 5:
+int a;
+do{
+printf("\nCHECK BALANCES\n");
+printf("1.check mpesa balance\n");
+printf("2.check saving balance\n");
+printf("3.check your loan\n");
+printf("4.Exit\n");
+printf("choice: ");
+scanf("%d",&a);
+
+if(a==1){
 printf("\nEnter pin: ");
 scanf("%d",&epin);
+
+//check mpesa balance
 if(epin==pin){
-printf("\nyour balance is ksh%.2lf, %s",balance,time_string);
+printf("\nyour balance is ksh%.2lf, %s\n",balance,time_string);
 }else{
     printf("wrong pin,try again");
-}
+}}
+else if(a==2){
+    printf("\nEnter pin: ");
+    scanf("%d",&epin);
 
+
+    //checking savings
+    if(pin==epin){
+double saved;
+saved=read_savings();
+printf("Your saving balance is ksh%.2lf, %s\n",saved,time_string);
+    }else{
+        printf("Wrong pin, try again\n");
+    }
+    
+}else if(a==3){
+    printf("\nEnter pin: ");
+    scanf("%d",&epin);
+
+    //checking loan
+    if(pin==epin){
+double loan;
+loan=read_loans();
+
+printf("your loan is ksh%.2lf, %s\n",loan,time_string);
+    }else{
+        printf("Wrong pin, try again\n");
+    }
+
+}else{
+    printf("invalid option\n");
+}
+}while(a!=4);
 break;
 
 
@@ -817,7 +866,7 @@ scanf("%d",&npin);
 
 if(epin==pin){
 pin=npin;
-FILE *cpin=fopen("/home/lawrence-mwangi/Documents/mpesa/pin.txt","a");
+FILE *cpin=fopen("pin.txt","a");
 if(cpin==NULL){
     perror("failed to open file");
     return 1;
@@ -847,7 +896,7 @@ scanf("%d",&epin);
 if(epin==pin){
 printf("\nyour trasactions are:\n");
 
-transaction("/home/lawrence-mwangi/Documents/mpesa/transaction.txt",lines);
+transaction("transaction.txt",lines);
 
 
 }else{

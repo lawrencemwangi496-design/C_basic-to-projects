@@ -35,10 +35,10 @@ The simulation includes a wide range of M-Pesa services:
 Since the program relies on reading the latest state from files, you must create these empty files in the same directory as the source code (mpesa_simulation.c):
 
 Filename Purpose Initial Content Recommendation
->pin.txt Stores the current 4-digit PIN.1234
->balance.txt Stores the current M-Pesa balance .5000.00
->loans.txt Stores the outstanding loan amount. 0.00
->savings.txt Stores the current savings balance. 0.00
+>pin.txt      Stores the current     4-digit PIN.1234
+>balance.txt    Stores the current      M-Pesa balance .5000.00
+>loans.txt         Stores the outstanding     loan amount. 0.00
+>savings.txt       Stores the current         savings balance. 0.00
 >transaction.txt Logs all transaction history. (Leave empty)
 
 Prerequisites

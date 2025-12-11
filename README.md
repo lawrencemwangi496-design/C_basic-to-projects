@@ -1,28 +1,24 @@
 # C Learning Journey
 
 ## About
-This repository contains all my C programming exercises and projects, organized by topics and school assignments.
+This repository contains all my C programming exercises and projects, organized by school work, mini_projects and projects.
 
 ## Folder Structure
 
-### Basics
+### School work
 - `variables/` → exercises on variables, constants, and data types
 - `loops/` → exercises with `for`, `while`, `do-while` loops
 - `conditionals/` → exercises with `if`, `if-else`, `switch` statements
 - `functions/` → practice writing and using functions
 - `pointers/` → basic pointer exercises
+-`cfile handling/` basic c file handling exercises
 
 ###Mini_projects
-- 'Mpesa_simulation/'- mpesa simulation simulating currrent day mpesa
+- Roaster manager- manages student detail using struct and memory allocation also using cfile handling
 
+###Projects
+- Mpesa simulation - it an mpesa simulation that is mostly used in kenya
 
-###Mini-School_Projects
-- `guessing_game/` → simple number guessing game
-
-
-
-### Personal Projects
-- Any experiments or larger projects I built on my own
 
 ## Notes
 - All assignments are arranged in order of my learning progress in the Basics.
